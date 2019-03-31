@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzy.mapper.UpvoteMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.xzy.entity.Upvote">
+		<id column="upvoteid" property="upvoteid" />
+		<result column="upvote_userid" property="upvoteUserid" />
+		<result column="upvote_articleid" property="upvoteArticleid" />
+		<result column="upvote_useradd" property="upvoteUseradd" />
+		<result column="upvote_control" property="upvoteControl" />
+		<result column="upvote_caicontrol" property="upvoteCaicontrol" />
+		<result column="upvote_time" property="upvoteTime" />
+	</resultMap>
+
+	<select id="findByUidAndConId"  resultMap="BaseResultMap">
+		select * from upvote where (upvote_userid = #{upvoteUserid} and upvote_articleid = #{upvoteArticleid})
+	</select>
+
+	<insert id="insertupv" parameterType="com.xzy.entity.Upvote">
+		insert into upvote (upvote_userid,upvote_articleid,upvote_useradd,upvote_control,
+		upvote_caicontrol,upvote_time) values (#{upvoteUserid},#{upvoteArticleid},#{upvoteUseradd},
+		#{upvoteControl},#{upvoteCaicontrol},#{upvoteTime})
+	</insert>
+
+	<update id="updateupv" parameterType="com.xzy.entity.Upvote">
+		update upvote set upvote_useradd = #{upvoteUseradd} , upvote_control = #{upvoteControl}
+		, upvote_caicontrol = ${upvoteCaicontrol} , upvote_time = #{upvoteTime}
+	</update>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzy.mapper.UsercontentMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.xzy.entity.Usercontent">
+		<id column="articleid" property="articleid" />
+		<result column="article_userid" property="articleUserid" />
+		<result column="artice_title" property="articeTitle" />
+		<result column="article_sort" property="articleSort" />
+		<result column="article_content" property="articleContent" />
+		<result column="article_isprivate" property="articleIsprivate" />
+		<result column="article_uploadtime" property="articleUploadtime" />
+		<result column="article_userhead" property="articleUserhead" />
+		<result column="article_username" property="articleUsername" />
+		<result column="article_upvote" property="articleUpvote" />
+		<result column="article_cai" property="articleCai" />
+		<result column="article_comment" property="articleComment" />
+	</resultMap>
+
+	<!--<select id="findByUserId" parameterType="Long" resultType="com.xzy.entity.Usercontent">
+		select * from usercontent where article_userid = #{article_userid}
+	</select>-->
+
+	<select id="select"  resultType="com.xzy.entity.Usercontent">
+		select * from usercontent
+	</select>
+
+	<select id="findAllByUpvote" resultType="com.xzy.entity.Usercontent">
+		select * from usercontent order by article_upvote desc
+	</select>
+
+	<select id="findById" parameterType="Long" resultType="com.xzy.entity.Usercontent">
+		select  * from usercontent where articleid = #{param1}
+	</select>
+
+	<update id="updatecont" parameterType="com.xzy.entity.Usercontent">
+		update usercontent set article_upvote = #{articleUpvote},article_cai = #{articleCai} where articleid = #{articleid}
+	</update>
+
+	<update id="updateContNumById" parameterType="com.xzy.entity.Usercontent">
+		update usercontent set article_comment = #{articleComment} where articleid = #{articleid}
+	</update>
+
+</mapper>

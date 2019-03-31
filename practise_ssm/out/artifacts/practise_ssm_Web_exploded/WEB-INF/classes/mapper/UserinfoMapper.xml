@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzy.mapper.UserinfoMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.xzy.entity.Userinfo">
+		<id column="user_infoid" property="userInfoid" />
+		<result column="user_info_userid" property="userInfoUserid" />
+		<result column="user_info_name" property="userInfoName" />
+		<result column="user_info_sex" property="userInfoSex" />
+		<result column="user_info_birth" property="userInfoBirth" />
+		<result column="user_info_hobby" property="userInfoHobby" />
+		<result column="use_info_add" property="useInfoAdd" />
+	</resultMap>
+
+</mapper>

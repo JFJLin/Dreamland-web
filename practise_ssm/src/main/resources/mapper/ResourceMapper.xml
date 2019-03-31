@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzy.mapper.ResourceMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.xzy.entity.Resource">
+		<id column="resourceid" property="resourceid" />
+		<result column="resourcename" property="resourcename" />
+		<result column="resourceurl" property="resourceurl" />
+		<result column="resourceenable" property="resourceenable" />
+		<result column="resourceremark" property="resourceremark" />
+	</resultMap>
+
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzy.mapper.UserMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.xzy.entity.User">
+		<id column="userid" property="userid" />
+		<result column="useremail" property="useremail" />
+		<result column="userpassword" property="userpassword" />
+		<result column="userphone" property="userphone" />
+		<result column="username" property="username" />
+		<result column="userstatus" property="userstatus" />
+		<result column="userhead" property="userhead" />
+		<result column="userenable" property="userenable" />
+	</resultMap>
+
+	<insert id="regist"  parameterType="com.xzy.entity.User">
+		insert into user(useremail,userpassword,userphone,username,userstatus,userhead,userenable)
+		 values (#{useremail},#{userpassword},#{userphone},#{username},#{userstatus},#{userhead},#{userenable})
+	</insert>
+
+	<select id="findByPhone" parameterType="String" resultType="com.xzy.entity.User">
+		select * from user where userphone = #{userphone}
+	</select>
+
+	<select id="findByEmail" parameterType="String" resultType="com.xzy.entity.User">
+		select * from user where useremail = #{useremail}
+	</select>
+
+	<select id="findById" parameterType="Long" resultType="com.xzy.entity.User">
+		select * from user where userid = #{userid}
+	</select>
+
+
+	<update id="update" parameterType="com.xzy.entity.User">
+		update user set userstatus = #{userstatus} , userenable = #{userenable} where useremail = #{useremail}
+	</update>
+
+	<select id="login" parameterType="com.xzy.entity.User" resultType="com.xzy.entity.User">
+		select * from user where useremail = #{param1} and userpassword = #{param2}
+	</select>
+
+</mapper>

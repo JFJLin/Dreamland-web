@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzy.mapper.CommentMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.xzy.entity.Comment">
+		<id column="comment_id" property="commentId" />
+		<result column="comment_articleid" property="commentArticleid" />
+		<result column="comment_disscusid" property="commentDisscusid" />
+		<result column="comment_bydisscusid" property="commentBydisscusid" />
+		<result column="comment_content" property="commentContent" />
+		<result column="comment_time" property="commentTime" />
+		<result column="comment_sondisscusid" property="commentSondisscusid" />
+		<result column="comment_upvotenum" property="commentUpvotenum" />
+		<association property="user" javaType="com.xzy.entity.User">
+			<id column="userid" property="userid" />
+			<result column="useremail" property="useremail" />
+			<result column="userpassword" property="userpassword" />
+			<result column="userphone" property="userphone" />
+			<result column="username" property="username" />
+			<result column="userstatus" property="userstatus" />
+			<result column="userhead" property="userhead" />
+			<result column="userenable" property="userenable" />
+		</association>
+	</resultMap>
+
+	<select id="selectAll"  resultMap="BaseResultMap">
+        select c.comment_id,c.comment_articleid,c.comment_disscusid,c.comment_bydisscusid,
+        c.comment_content,c.comment_time,c.comment_sondisscusid,c.comment_upvotenum,
+        u.userid as uid,u.useremail,u.userpassword,u.userphone,u.username,u.userstatus,
+        u.userhead,u.userenable
+        from comment c, user u
+        WHERE comment_articleid = #{commentArticleid}
+        and c.comment_disscusid = u.userid
+        order by u.userid desc
+    </select>
+
+	<insert id="insertComment" parameterType="com.xzy.entity.Comment">
+        insert into comment(comment_articleid, comment_disscusid, comment_bydisscusid,
+        comment_content, comment_time,comment_sondisscusid,comment_upvotenum)
+        values(#{commentArticleid},#{commentDisscusid}, #{commentBydisscusid},
+        #{commentContent},#{commentTime}, #{commentSondisscusid},#{commentUpvotenum})
+    </insert>
+
+	<select id="findAllFirstComment"  resultMap="BaseResultMap">
+        select c.comment_id,c.comment_articleid,c.comment_disscusid,c.comment_bydisscusid,
+        c.comment_content,c.comment_time,c.comment_sondisscusid,c.comment_upvotenum,
+        u.userid as uid,u.useremail,u.userpassword,u.userphone,u.username,u.userstatus,
+        u.userhead,u.userenable
+        from comment c, user u
+        where comment_articleid = #{commentArticleid} and c.comment_bydisscusid is null and
+        c.comment_disscusid = u.userid order by u.userid desc
+    </select>
+
+	<select id="findAllChildrenComment"  resultMap="BaseResultMap">
+		select c.comment_id,c.comment_articleid,c.comment_disscusid,c.comment_bydisscusid,
+		c.comment_content,c.comment_time,c.comment_sondisscusid,c.comment_upvotenum,
+		u.userid as uid,u.useremail,u.userpassword,u.userphone,u.username,u.userstatus,
+		u.userhead,u.userenable
+		from comment c, user u
+		where c.comment_articleid = #{cid}
+
+			and c.comment_id in (#{children})
+
+		 and u.userid = c.comment_disscusid  order by u.userid desc
+
+	</select>
+
+	<select id="findById" parameterType="Long" resultType="com.xzy.entity.Comment">
+		select * from comment where comment_id = #{commentId}
+	</select>
+
+	<update id="updateUpvNum" parameterType="com.xzy.entity.Comment">
+		update comment set comment_upvotenum = #{commentUpvotenum} ,comment_sondisscusid = #{commentSondisscusid} where comment_id = #{commentId}
+	</update>
+
+	<delete id="deleteChildrenComment" parameterType="String">
+		delete from comment where comment_sondisscusid = #{commentSondisscusid}
+	</delete>
+
+
+	<delete id="deleteComment" parameterType="Long">
+		delete from comment where comment_id = #{commentId}
+	</delete>
+
+	<select id="findSon" resultType="com.xzy.entity.Comment">
+		select * from comment order by comment_id desc limit 1
+	</select>
+</mapper>
